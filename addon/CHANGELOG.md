@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+"Unreleased" changes below are actually released. As they are from alexmorbo's repository - which I have not significantly changed - I am leaving that section in this document, and simply adding a 2.1.1 section. 
+
 ## Unreleased
 
 - **Each pet's Home Assistant device now shows its last toilet visit and last
