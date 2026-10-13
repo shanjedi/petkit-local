@@ -1,4 +1,17 @@
+
+
 # PetKit Local
+
+> **This is a fork.** [shanjedi/petkit-local](https://github.com/shanjedi/petkit-local) is built on
+> [alexmorbo/petkit-local](https://github.com/alexmorbo/petkit-local), which is itself a fork of
+> [alex-so-3/petkit-local](https://github.com/alex-so-3/petkit-local), the original project and the
+> work almost all of this repository is. I am very new to github, to home assistant, to self-hosting tools -
+> this is an experiment to try and understand better through a bit of reverse-engineering. There are, at this
+> point, basically no changes to the code - all I've done is change the readme, the repository.yaml, and the
+> config.yaml. This may change in future, and will be noted as such, with credit added in Fork Credits. 
+>
+> Additional information has been taken from [404alex/petkit-local](https://github.com/404alex/petkit-local),
+>  such as the workflow for [moving from upstream](#moving-from-upstream). 
 
 PetKit's devices route everything through PetKit's servers: the app, the history, the notifications,
 and the video from inside your home. This is a stand-in for those servers that runs on your own
@@ -297,6 +310,22 @@ the box — useful if you want to add a model, or are just curious.
 The protocol invariants a contributor must not break are summarised in
 [`AGENTS.md`](AGENTS.md).
 
+## Moving from upstream
+
+Home Assistant names an add-on after its repository, so this fork installs as a separate add-on with
+an empty `/data`. Copy the old one across before starting it, or a device patched with the CA
+Certificate patcher will not trust the new broker's certificate. With the old add-on stopped, from
+a shell that can reach Docker (Advanced SSH & Web Terminal with Protection mode off):
+
+```sh
+ha apps stop <old-slug>
+docker run --rm -v /mnt/data/supervisor/apps/data:/d alpine cp -a /d/<old-slug>/. /d/<new-slug>/
+ha apps options <old-slug> --boot manual
+ha apps start <new-slug>
+```
+
+The old `/data` is left as it was, so starting the old add-on again is the way back.
+
 ## 🙌 Contributing
 
 **A report that your model works is worth opening an issue for.** There is exactly one device behind
@@ -334,6 +363,17 @@ The rest was worked out here, against real firmware and real traffic: the event 
 evidence grade on every row, the MQTT authentication, the media encryption and the stitching of a
 visit's chunks, the on-device patches, and the handful of device behaviours that only ever show up
 in a capture.
+
+**Fork credits.**
+
+This fork does not have significant changes at this time, but it *is* a fork-of-a-fork. I am uncertain of general
+protocol here, so... when in doubt, link *everything*. 
+
+- **[alexmorbo/petkit-local](https://github.com/alexmorbo/petkit-local)** - the base of this fork. Chosen for it's
+  changes to W7H controls as well as pet sensors.
+- **[404alex/petkit-local](https://github.com/404alex/petkit-local)** - Information on moving from upstream.
+- **[alex-so-3/petkit-local](https://github.com/alex-so-3/petkit-local)** — everything else in
+  this repository. What the alexmorbo repository was forked from, originally.
 
 ## ⚖️ License
 
